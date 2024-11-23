@@ -32,23 +32,9 @@ try {
 }
 
 
-
-
-
-
-
-
 /*}else
     header("Location: index.php");
 */
-
-
-
-
-
-
-
-
 
 ?>
 <!DOCTYPE html>
@@ -62,6 +48,7 @@ try {
 
 </head>
 <body>
+    <header>
     <nav class="navbar">
         <div class="logo">
             <a href="index.html"><img src="pic.png" alt="aadl 2.0"></a>
@@ -72,9 +59,9 @@ try {
             <li><a href="test3.html">Connexion</a></li>
         </ul>
     </nav>
+</header>
 
-
-
+<main>
 <div>
 <div class="container">
   <h2>Votre Biens </h2>
@@ -101,10 +88,10 @@ try {
   </ul>
 </div>
 </div>
+</main>
 
-
-    <footer class="footer">
+<footer class="footer">
         <p>&copy; 2024 AADL 2.0. Tous droits réservés.</p>
-    </footer>
+</footer>
 </body>
 </html>

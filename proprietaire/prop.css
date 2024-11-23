@@ -19,6 +19,9 @@ body {
     background-color: #f4f4f9;
     color: #333;
     line-height: 1.6;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 .navbar {
     display: flex;
@@ -48,7 +51,9 @@ body {
     color: #ff9800;
 }
 
-
+main{
+    flex:1;
+}
 
 /* Footer */
 .footer {
@@ -255,5 +260,10 @@ nav.navbar .logo img {
     }
   }
 
-
+  footer {
+    background: #333; /* Optional styling */
+    color: #fff; /* Optional styling */
+    text-align: center; /* Optional styling */
+    padding: 10px; /* Optional styling */
+}
 
