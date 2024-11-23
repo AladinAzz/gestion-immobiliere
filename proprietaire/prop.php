@@ -26,7 +26,7 @@ try {
     $stmt->execute();
     
     $user = $stmt->fetch(PDO::FETCH_ASSOC); // Fetch a single row
-    print_r($user);
+    
 } catch (PDOException $e) {
     echo "<script>alert (\"query \")</script>"  ;
 }
