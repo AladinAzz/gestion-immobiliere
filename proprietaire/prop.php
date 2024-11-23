@@ -28,7 +28,7 @@ try {
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC); 
     
 } catch (PDOException $e) {
-    echo "<script>alert (\"query \")</script>"  ;
+    echo "<script>alert(\"Query error: " . addslashes($e->getMessage()) . "\")</script>";
 }
 
 foreach ($users as &$user) { 
