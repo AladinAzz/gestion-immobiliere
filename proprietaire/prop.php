@@ -1,6 +1,46 @@
 <?php
 session_start();
+//if (isset($_SESSION["connected"]) && $_SESSION["connected"]==true){
 
+   
+    $host = 'localhost:3306';  // Replace with your database host
+    $dbname = 'gestion_immobiliere';  // Replace with your database name
+    $username = 'root';  // Replace with your MySQL username
+    $password = 'Aladdinazz22';  // Replace with your MySQL password
+    
+    try {
+        // Create a PDO instance (connect to the database)
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+        
+        // Set error mode to exceptions
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+        echo "<script>alert (\"Welcome owner\")</script>";
+    } catch (PDOException $e) {
+        echo "Connection failed: " . $e->getMessage();
+    }
+    
+    
+try {
+    $stmt = $pdo->prepare("SELECT * FROM vente");
+    $stmt->execute();
+    
+    $user = $stmt->fetch(PDO::FETCH_ASSOC); // Fetch a single row
+    print_r($user);
+} catch (PDOException $e) {
+    echo "<script>alert (\"query \")</script>"  ;
+}
+
+
+
+
+
+
+
+
+/*}else
+    header("Location: index.php");
+*/
 
 
 
@@ -17,7 +57,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="pic.png" />
-    <link rel="stylesheet" href="l.css">
+    <link rel="stylesheet" href="prop.css">
     <title>Propriétés à Vendre</title>
 
 </head>
@@ -32,6 +72,36 @@ session_start();
             <li><a href="test3.html">Connexion</a></li>
         </ul>
     </nav>
+
+
+
+<div>
+<div class="container">
+  <h2>Votre Biens </h2>
+  <ul class="responsive-table">
+    <li class="table-header">
+      <div class="col col-1">Id vente</div>
+      <div class="col col-2">id Bien</div>
+      <div class="col col-3">agent</div>
+      <div class="col col-4">date vente</div>
+      <div class="col col-5">prix</div>
+      <div class="col col-6">montant payé</div>
+    </li>
+    <?php
+
+    echo "<li class=\"table-row\">
+      <div class=\"col col-1\" data-label=\" \">" .$user["id_vente"]. "</div>
+      <div class=\"col col-2\" data-label=\"\">" .$user["id_bien"]. "</div>
+      <div class=\"col col-3\" data-label=\"\">" .$user["id_agent"]. "</div>
+      <div class=\"col col-4\" data-label=\"\">" .$user["date_vente"]. "</div>
+      <div class=\"col col-5\" data-label=\"\">" .$user["prix"]. "</div>
+      <div class=\"col col-6\" data-label=\"\">" .$user["montant_paye"]. "</div>
+    </li>";
+    ?>
+  </ul>
+</div>
+</div>
+
 
     <footer class="footer">
         <p>&copy; 2024 AADL 2.0. Tous droits réservés.</p>
