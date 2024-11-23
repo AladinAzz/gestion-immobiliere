@@ -15,7 +15,7 @@ session_start();
         // Set error mode to exceptions
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-        echo "<script>alert (\"Welcome owner\")</script>";
+       
     } catch (PDOException $e) {
         echo "Connection failed: " . $e->getMessage();
     }
@@ -30,6 +30,33 @@ try {
 } catch (PDOException $e) {
     echo "<script>alert (\"query \")</script>"  ;
 }
+
+foreach ($users as &$user) { 
+    try {
+        // Use a prepared statement to avoid SQL injection
+        $stmt = $pdo->prepare("SELECT adresse FROM bien WHERE id_bien = :id_bien;");
+        $stmt->bindParam(':id_bien',  $user['id_bien'], PDO::PARAM_INT); // Bind parameter safely
+        $stmt->execute();
+    
+        // Fetch the result as an associative array
+        $adress = $stmt->fetch(PDO::FETCH_ASSOC); 
+        
+        if ($adress) {
+            // Merge the new address into the $user array
+            $user = array_merge($user, ['adress' => $adress['adresse']]);
+
+        } else {
+            $user = array_merge($user, ['adress' => null]);
+ // Handle cases where no address is found
+        }
+    } catch (PDOException $e) {
+        // Properly format the error message
+        echo "<script>alert(\"Query error: " . addslashes($e->getMessage()) . "\")</script>";
+    }
+    
+}
+
+
 
 
 /*}else
@@ -69,6 +96,7 @@ try {
     <li class="table-header">
       <div class="col col-1">Id vente</div>
       <div class="col col-2">id Bien</div>
+      <div class="col col-6">Adress</div>
       <div class="col col-3">agent</div>
       <div class="col col-4">date vente</div>
       <div class="col col-5">prix</div>
@@ -79,6 +107,7 @@ try {
     echo "<li class=\"table-row\">
       <div class=\"col col-1\" data-label=\" \">" .$user["id_vente"]. "</div>
       <div class=\"col col-2\" data-label=\"\">" .$user["id_bien"]. "</div>
+      <div class=\"col col-6\" data-label=\"\">" .$user["adress"]. "</div>
       <div class=\"col col-3\" data-label=\"\">" .$user["id_agent"]. "</div>
       <div class=\"col col-4\" data-label=\"\">" .$user["date_vente"]. "</div>
       <div class=\"col col-5\" data-label=\"\">" .$user["prix"]. "</div>
