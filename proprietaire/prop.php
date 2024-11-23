@@ -25,7 +25,7 @@ try {
     $stmt = $pdo->prepare("SELECT * FROM vente");
     $stmt->execute();
     
-    $user = $stmt->fetch(PDO::FETCH_ASSOC); // Fetch a single row
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC); 
     
 } catch (PDOException $e) {
     echo "<script>alert (\"query \")</script>"  ;
@@ -88,7 +88,7 @@ try {
       <div class="col col-6">montant payé</div>
     </li>
     <?php
-
+    foreach ($users as $user) {
     echo "<li class=\"table-row\">
       <div class=\"col col-1\" data-label=\" \">" .$user["id_vente"]. "</div>
       <div class=\"col col-2\" data-label=\"\">" .$user["id_bien"]. "</div>
@@ -96,7 +96,7 @@ try {
       <div class=\"col col-4\" data-label=\"\">" .$user["date_vente"]. "</div>
       <div class=\"col col-5\" data-label=\"\">" .$user["prix"]. "</div>
       <div class=\"col col-6\" data-label=\"\">" .$user["montant_paye"]. "</div>
-    </li>";
+    </li>";}
     ?>
   </ul>
 </div>
