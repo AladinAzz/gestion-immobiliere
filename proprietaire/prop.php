@@ -1,6 +1,6 @@
 <?php
 session_start();
-//if (isset($_SESSION["connected"]) && $_SESSION["connected"]==true){
+if (isset($_SESSION["connected"]) && $_SESSION["connected"]==true){
 
    
     $host = 'localhost:3306';  // Replace with your database host
@@ -59,9 +59,9 @@ foreach ($users as &$user) {
 
 
 
-/*}else
-    header("Location: index.php");
-*/
+}else
+    header("Location: ../visiteur/list.html");
+
 
 ?>
 <!DOCTYPE html>
@@ -105,13 +105,13 @@ foreach ($users as &$user) {
     <?php
     foreach ($users as $user) {
     echo "<li class=\"table-row\">
-      <div class=\"col col-1\" data-label=\" \">" .$user["id_vente"]. "</div>
-      <div class=\"col col-2\" data-label=\"\">" .$user["id_bien"]. "</div>
-      <div class=\"col col-6\" data-label=\"\">" .$user["adress"]. "</div>
-      <div class=\"col col-3\" data-label=\"\">" .$user["id_agent"]. "</div>
-      <div class=\"col col-4\" data-label=\"\">" .$user["date_vente"]. "</div>
-      <div class=\"col col-5\" data-label=\"\">" .$user["prix"]. "</div>
-      <div class=\"col col-6\" data-label=\"\">" .$user["montant_paye"]. "</div>
+      <div class=\"col col-1\" >" .$user["id_vente"]. "</div>
+      <div class=\"col col-2\" >" .$user["id_bien"]. "</div>
+      <div class=\"col col-6\" >" .$user["adress"]. "</div>
+      <div class=\"col col-3\" > <a href=\"\">" .$user["id_agent"]. "</a></div>
+      <div class=\"col col-4\" >" .$user["date_vente"]. "</div>
+      <div class=\"col col-5\" >" .$user["prix"]. "</div>
+      <div class=\"col col-6\" >" .$user["montant_paye"]. "</div>
     </li>";}
     ?>
   </ul>
