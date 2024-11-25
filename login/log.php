@@ -44,7 +44,7 @@ if (isset($_SESSION["connected"]) && $_SESSION["connected"]) {
         }
 		$_SESSION["email"] = $email;
         // Database connection
-        if (!isset($_SESSION['connections']["email"])) {
+        if (!isset($_SESSION['connections']["email"]) && $_SESSION['connections']["email"]=) {
             $_SESSION["connections"][]=["email"=>$email,"maxAttempts"=>3,"lockoutTime"=>null];
         }
         $host = 'localhost:3306';
