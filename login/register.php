@@ -41,6 +41,7 @@ if (isset($_POST['butt'])) {
         )
         );
         $reponse = $requete->fetchAll(PDO::FETCH_ASSOC);
+        var_dump($reponse);
 }
 
 ?>
