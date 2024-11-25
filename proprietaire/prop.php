@@ -5,8 +5,8 @@ if (isset($_SESSION["connected"]) && $_SESSION["connected"]==true){
    
     $host = 'localhost:3306';  // Replace with your database host
     $dbname = 'gestion_immobiliere';  // Replace with your database name
-    $username = 'admin';  // Replace with your MySQL username
-    $password = 'admin';  // Replace with your MySQL password
+    $username = 'prop';  // Replace with your MySQL username
+    $password = 'proprietaire';  // Replace with your MySQL password
     
     try {
         // Create a PDO instance (connect to the database)
