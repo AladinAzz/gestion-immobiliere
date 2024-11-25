@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="pic.png" />
-    <link rel="stylesheet" href="22/i.css">
+    <link rel="stylesheet" href="visit.css">
     <title>Accueil - AADL 2.0</title>
 </head>
 <body>
@@ -13,9 +13,9 @@
             <a href="index.html"><img src="pic.png" alt="aadl 2.0"></a>
            </div>
         <ul class="nav-links">
-            <li><a href="index.html">Accueil</a></li>
-            <li><a href="list.html">Nos Propriétés</a></li>
-            <li><a href="test3.html">Connexion</a></li>
+            <li><a href="visit.php">Accueil</a></li>
+            <li><a href="list.php">Nos Propriétés</a></li>
+            <li><a href="../login/log.php">Connexion</a></li>
         </ul>
     </nav>
 
