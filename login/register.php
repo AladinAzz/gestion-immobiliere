@@ -1,29 +1,42 @@
 <?php
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = htmlspecialchars($_POST['txt']); 
+$host = 'localhost:3306';
+$dbname = 'gestion_immobiliere';
+$username = 'root';
+$dbPassword = 'ismailo1801997065';
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $dbPassword);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
+
+if (isset($_POST['butt'])) {
+    $nom = $_POST['nom'];
+    $prenom=$_POST['prenom'];
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-    $telephone =$POST['telephone'];
-    $role="visit";
+    $mot_de_passe = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $phone =$_POST['phone'];
+    $role ='visit';//راهي تمشي مع les roles كامل ماعدا visit
+
 
     $sql = "SELECT * FROM utilisateur WHERE email = :email";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':email' => $email]);
-
     if ($stmt->fetch()) {
         die("Cet email est déjà utilisé !");
     }
 
-    $sql = "INSERT INTO utilisateur (nom, email, mot_de_passe,telephone) VALUES (:name, :email, :password)";
-    $stmt = $pdo->prepare($sql);
-
-    try {
-        $stmt->execute([':name' => $name, ':email' => $email, ':password' => $password ,':$telephone' => $telephone]);
-        echo "Compte créé avec succès !";
-    } catch (PDOException $e) {
-        die("Erreur lors de l'inscription : " . $e->getMessage());
-    }
+    $requete = $pdo ->prepare("INSERT INTO utilisateur (nom,prenom,email,mot_de_passe,role,telephone) VALUES (:nom, :prenom,:email,:mot_de_passe,:role,:phone)");
+    $requete->execute([':nom' => $nom,
+    ':prenom'=>$prenom,
+    ':email'=>$email,
+    ':mot_de_passe'=>$mot_de_passe,
+    ':role'=>$role,
+    ':phone'=>$phone]);
+    /*
+        $reponse = $requete->fetchAll(PDO::FETCH_ASSOC);
+        var_dump($reponse);*/
 }
-
 ?>

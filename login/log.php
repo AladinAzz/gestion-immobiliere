@@ -19,8 +19,8 @@ function isLockedOut($email) {
 // Database connection
 $host = 'localhost:3306';
 $dbname = 'gestion_immobiliere';
-$username = 'admin';
-$dbPassword = 'admin';
+$username = 'root';
+$dbPassword = 'ismailo1801997065';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $dbPassword);
@@ -110,7 +110,7 @@ if (!empty($_POST["email"]) && !empty($_POST["password"])) {
                 <input type="email" placeholder="Email" name="email" required />
                 <input type="text" placeholder="Phone number" name="phone" required />
                 <input type="password" placeholder="Password" name="password" required />
-                <button id="sub" type="submit">Sign Up</button>
+                <button id="sub" type="submit" name="butt">Sign Up</button>
             </form>
         </div>
 
