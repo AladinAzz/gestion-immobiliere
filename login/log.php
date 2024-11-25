@@ -2,10 +2,7 @@
 session_start();
 
 // Initialize session variables
-if (!isset($_SESSION['login_attempts'])) {
-    $_SESSION['login_attempts'] = 0;
-    $_SESSION['lockout_time'] = null;
-}
+
 //hello world!
 // Check if the user is already connected
 if (isset($_SESSION["connected"]) && $_SESSION["connected"]) {
@@ -47,10 +44,13 @@ if (isset($_SESSION["connected"]) && $_SESSION["connected"]) {
         }
 		$_SESSION["email"] = $email;
         // Database connection
+        if (!isset($_SESSION['connections']["email"])) {
+            $_SESSION["connections"][]=["email"=>$email,"maxAttempts"=>3,"lockoutTime"=>null];
+        }
         $host = 'localhost:3306';
         $dbname = 'gestion_immobiliere';
-        $username = 'root';
-        $dbPassword = 'ismailo1801997065';
+        $username = 'admin';
+        $dbPassword = 'admin';
 
         try {
             $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $dbPassword);
@@ -76,9 +76,11 @@ if (isset($_SESSION["connected"]) && $_SESSION["connected"]) {
         $maxAttempts = 3;
         $lockoutDuration = 300; // Lockout duration in seconds (5 minutes)
         $currentTime = time();
+        
 
+        
         // Check if user is locked out
-        if ($_SESSION['lockout_time'] && $currentTime < $_SESSION['lockout_time']) {
+        if ($_SESSION["connections"]['lockoutTime'] && $currentTime < $_SESSION['lockout_time']) {
             $remainingTime = $_SESSION['lockout_time'] - $currentTime;
             die("You are temporarily locked out. Please try again in $remainingTime seconds.");
         }
