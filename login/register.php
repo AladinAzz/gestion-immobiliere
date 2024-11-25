@@ -18,7 +18,7 @@ if (isset($_POST['butt'])) {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $mot_de_passe = password_hash($_POST['password'], PASSWORD_BCRYPT);
     $phone =$_POST['phone'];
-    $role ="visit";
+    $role ='visit';//راهي تمشي مع les roles كامل ماعدا visit
 
 
     $sql = "SELECT * FROM utilisateur WHERE email = :email";
