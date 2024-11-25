@@ -134,7 +134,7 @@ if (isset($_SESSION["connected"]) && $_SESSION["connected"]) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="log.css">
-    <style>
+    <!--<style>
         #sub {
             border-radius: 20px;
             border: 1px solid #FF4B2B;
@@ -157,7 +157,7 @@ if (isset($_SESSION["connected"]) && $_SESSION["connected"]) {
         #sub:focus {
             outline: none;
         }
-    </style>
+    </style>-->
 </head>
 <body style="background-image: url('build.jpg'); background-repeat: no-repeat; background-size: cover; " >
     <div class="container" id="container">
