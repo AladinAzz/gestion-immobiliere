@@ -62,7 +62,8 @@ if (!empty($_POST["email"]) && !empty($_POST["password"])) {
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user && password_verify($password, $user["password"])) {
+    
+    if ($user && password_verify($password, $user["mot_de_passe"])) {
         $_SESSION["connections"][$email]["login_attempts"] = 0;
         $_SESSION["connections"][$email]["lockoutTime"] = null;
         $_SESSION["connected"] = true;
