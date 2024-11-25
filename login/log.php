@@ -44,8 +44,9 @@ if (isset($_SESSION["connected"]) && $_SESSION["connected"]) {
         }
 		$_SESSION["email"] = $email;
         // Database connection
-        if (!isset($_SESSION['connections']["email"]) && $_SESSION['connections']["email"]=) {
-            $_SESSION["connections"][]=["email"=>$email,"maxAttempts"=>3,"lockoutTime"=>null];
+        if (!isset($_SESSION['connections'][$email])) {
+            $_SESSION["connections"][]=["email"=> $email];
+            $_SESSION["connections"][$email][]=["maxAttempts"=>3,"lockoutTime"=>null];
         }
         $host = 'localhost:3306';
         $dbname = 'gestion_immobiliere';
@@ -80,8 +81,8 @@ if (isset($_SESSION["connected"]) && $_SESSION["connected"]) {
 
         
         // Check if user is locked out
-        if ($_SESSION["connections"]['lockoutTime'] && $currentTime < $_SESSION['lockout_time']) {
-            $remainingTime = $_SESSION['lockout_time'] - $currentTime;
+        if ($_SESSION["connections"][$email]['lockoutTime'] && $currentTime < $_SESSION["connections"][$email]['lockoutTime']) {
+            $remainingTime = $_SESSION[$email]['lockoutTime'] - $currentTime;
             die("You are temporarily locked out. Please try again in $remainingTime seconds.");
         }
 
@@ -91,8 +92,9 @@ if (isset($_SESSION["connected"]) && $_SESSION["connected"]) {
 
         if ($isValidLogin) {
             // Reset attempts and lockout time
-            $_SESSION['login_attempts'] = 0;
-            $_SESSION['lockout_time'] = null;
+            
+            $_SESSION["connections"][$email]['login_attempts'] = 3;
+            $_SESSION["connections"][$email]['lockout_time'] = null;
             $_SESSION["connected"] = true;
             $_SESSION["role"] = $user["role"];
 
@@ -113,14 +115,14 @@ if (isset($_SESSION["connected"]) && $_SESSION["connected"]) {
             }
         } else {
             // Increment attempts on failed login
-            $_SESSION['login_attempts']++;
+            $_SESSION["connections"][$email]['login_attempts']++;
 
-            if ($_SESSION['login_attempts'] >= $maxAttempts) {
+            if ($_SESSION["connections"][$email]['login_attempts'] >= $maxAttempts) {
                 // Lock the user out for 5 minutes
-                $_SESSION['lockout_time'] = $currentTime + $lockoutDuration;
+                $_SESSION["connections"][$email]['lockoutTime'] = $currentTime + $lockoutDuration;
                 echo("<script>alert(\"Too many failed login attempts. You are locked out for 5 minutes.\")</script>");
             } else {
-                $remainingAttempts = $maxAttempts - $_SESSION['login_attempts'];
+                $remainingAttempts = $maxAttempts - $_SESSION["connections"][$email]['login_attempts'];
                 echo "<script>alert(\"Invalid login. You have $remainingAttempts attempt(s) left.\")</script>";
             }
         }
