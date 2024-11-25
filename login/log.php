@@ -1,134 +1,88 @@
 <?php
 session_start();
 
-// Initialize session variables
-
-//hello world!
-// Check if the user is already connected
-if (isset($_SESSION["connected"]) && $_SESSION["connected"]) {
-    switch ($_SESSION["role"]) {
-        case "prop":
-            $_SESSION["username"] = "prop";
-            $_SESSION["password"] = "proprietaire";
-            header("location:../proprietaire/prop.php");
-            break;
-        case "admin":
-            $_SESSION["username"] = "admin";
-            $_SESSION["password"] = "admin";
-            header("location:../admin/admin.php");
-            break;
-        case "agent":
-            $_SESSION["username"] = "agent";
-            $_SESSION["password"] = "agent47";
-            header("location:../agent/agent.php");
-            break;
-        case "locataire":
-            $_SESSION["username"] = "locataire";
-            $_SESSION["password"] = "locataire00";
-            header("location:../locataire/loc.php");
-            break;
+// Function to initialize login tracking
+function initializeTracking($email) {
+    if (!isset($_SESSION["connections"][$email])) {
+        $_SESSION["connections"][$email] = ["login_attempts" => 0, "lockoutTime" => null];
     }
-} else {
-    // Process login form
-    if (!empty($_POST["email"]) && !empty($_POST["password"])) {
-        $email = $_POST["email"];
-        $password = $_POST["password"];
-		$_SESSION["pass"]=$password;
-        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+}
 
-        // Validate e-mail
-        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-            echo("<script>alert(\"$email is not a valid email address\");</script>");
-            header("location:log.php");
-            exit;
-        }
-		$_SESSION["email"] = $email;
-        // Database connection
-        if (!isset($_SESSION['connections'][$email])) {
-            $_SESSION["connections"][]=["email"=> $email];
-            $_SESSION["connections"][$email][]=["maxAttempts"=>3,"lockoutTime"=>null];
-        }
-        $host = 'localhost:3306';
-        $dbname = 'gestion_immobiliere';
-        $username = 'admin';
-        $dbPassword = 'admin';
+// Function to check lockout status
+function isLockedOut($email) {
+    $currentTime = time();
+    return isset($_SESSION["connections"][$email]) &&
+           $_SESSION["connections"][$email]["lockoutTime"] !== null &&
+           $currentTime < $_SESSION["connections"][$email]["lockoutTime"];
+}
 
-        try {
-            $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $dbPassword);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            echo "Connection failed: " . $e->getMessage();
-            exit;
-        }
+// Database connection
+$host = 'localhost:3306';
+$dbname = 'gestion_immobiliere';
+$username = 'admin';
+$dbPassword = 'admin';
 
-        // Query user data
-        try {
-            $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE email=:mail");
-            $stmt->bindParam(':mail', $email, PDO::PARAM_STR);
-            $stmt->execute();
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            echo "<script>alert(\"Email does not exist\")</script>";
-            header("location:log.php");
-            exit;
-        }
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $dbPassword);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
 
-        // Maximum attempts before lockout
-        $maxAttempts = 3;
-        $lockoutDuration = 300; // Lockout duration in seconds (5 minutes)
-        $currentTime = time();
-        
+// Check if user is logged in
+if (isset($_SESSION["connected"]) && $_SESSION["connected"]) {
+    $role = $_SESSION["role"];
+    header("location:../$role/{$role}.php");
+    exit;
+}
 
-        
-        // Check if user is locked out
-        if ($_SESSION["connections"][$email]['lockoutTime'] && $currentTime < $_SESSION["connections"][$email]['lockoutTime']) {
-            $remainingTime = $_SESSION[$email]['lockoutTime'] - $currentTime;
-            die("You are temporarily locked out. Please try again in $remainingTime seconds.");
-        }
+// Process login form
+if (!empty($_POST["email"]) && !empty($_POST["password"])) {
+    $email = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
+    $password = $_POST["password"];
+    initializeTracking($email);
 
-		$password=$_SESSION["pass"];
-        // Validate login
-        $isValidLogin = ($password === $user['password']);
+    // Validate email
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "<script>alert('$email is not a valid email address.');</script>";
+        header("location:log.php");
+        exit;
+    }
 
-        if ($isValidLogin) {
-            // Reset attempts and lockout time
-            
-            $_SESSION["connections"][$email]['login_attempts'] = 3;
-            $_SESSION["connections"][$email]['lockout_time'] = null;
-            $_SESSION["connected"] = true;
-            $_SESSION["role"] = $user["role"];
+    // Check lockout status
+    if (isLockedOut($email)) {
+        $remainingTime = $_SESSION["connections"][$email]["lockoutTime"] - time();
+        echo "<script>alert('Locked out. Try again in $remainingTime seconds.');</script>";
+        exit;
+    }
 
-            // Redirect to the appropriate page based on user role
-            switch ($_SESSION["role"]) {
-                case "prop":
-                    header("location:../proprietaire/prop.php");
-                    break;
-                case "admin":
-                    header("location:../admin/admin.php");
-                    break;
-                case "agent":
-                    header("location:../agent/agent.php");
-                    break;
-                case "locataire":
-                    header("location:../locataire/loc.php");
-                    break;
-            }
+    // Query user data
+    $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE email=:mail");
+    $stmt->bindParam(':mail', $email, PDO::PARAM_STR);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user && password_verify($password, $user["password"])) {
+        $_SESSION["connections"][$email]["login_attempts"] = 0;
+        $_SESSION["connections"][$email]["lockoutTime"] = null;
+        $_SESSION["connected"] = true;
+        $_SESSION["role"] = $user["role"];
+        header("location:../{$user["role"]}/{$user["role"]}.php");
+        exit;
+    } else {
+        $_SESSION["connections"][$email]["login_attempts"]++;
+        if ($_SESSION["connections"][$email]["login_attempts"] >= 3) {
+            $_SESSION["connections"][$email]["lockoutTime"] = time() + 300;
+            echo "<script>alert('Too many failed attempts. Locked out for 5 minutes.');</script>";
         } else {
-            // Increment attempts on failed login
-            $_SESSION["connections"][$email]['login_attempts']++;
-
-            if ($_SESSION["connections"][$email]['login_attempts'] >= $maxAttempts) {
-                // Lock the user out for 5 minutes
-                $_SESSION["connections"][$email]['lockoutTime'] = $currentTime + $lockoutDuration;
-                echo("<script>alert(\"Too many failed login attempts. You are locked out for 5 minutes.\")</script>");
-            } else {
-                $remainingAttempts = $maxAttempts - $_SESSION["connections"][$email]['login_attempts'];
-                echo "<script>alert(\"Invalid login. You have $remainingAttempts attempt(s) left.\")</script>";
-            }
+            $remainingAttempts = 3 - $_SESSION["connections"][$email]["login_attempts"];
+            echo "<script>alert('Invalid login. $remainingAttempts attempt(s) left.');</script>";
+            header("location: ../index.php ");
         }
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
