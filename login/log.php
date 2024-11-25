@@ -19,8 +19,8 @@ function isLockedOut($email) {
 // Database connection
 $host = 'localhost:3306';
 $dbname = 'gestion_immobiliere';
-$username = 'root';
-$dbPassword = 'ismailo1801997065';
+$username = 'admin';
+$dbPassword = 'admin';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $dbPassword);
