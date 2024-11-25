@@ -16,7 +16,7 @@
         <ul class="nav-links">
             <li><a href="visit.php">Accueil</a></li>
             <li><a href="list.php">Nos Propriétés</a></li>
-            <li><a href="../login/log.php">Connexion</a></li>
+            <li><a href="../login/logc.php">Connexion</a></li>
         </ul>
     </nav>
 

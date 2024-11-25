@@ -12,7 +12,7 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
-if (isset($_POST['butt'])) {
+if (isset($_POST['signup'])) {
     $nom = $_POST['nom'];
     $prenom=$_POST['prenom'];
     if(!filter_var($_POST['email'], FILTER_SANITIZE_EMAIL)){
@@ -45,7 +45,7 @@ if (isset($_POST['butt'])) {
         var_dump($reponse);*/
     
 
-        echo "<script>alert('you have been registred');</script>";
+       
 
         
 
