@@ -10,7 +10,7 @@
 <body>
     <nav class="navbar">
         <div class="logo">
-            <a href="index.html"><img src="pic.png" alt="aadl 2.0"></a>
+            <a href="visit.php"><img src="pic.png" alt="aadl 2.0"></a>
            </div>
         <ul class="nav-links">
             <li><a href="visit.php">Accueil</a></li>
@@ -23,7 +23,7 @@
         <div class="hero-content">
             <h1>Trouvez la Maison de Vos Rêves</h1>
             <p>Explorez notre large sélection de propriétés modernes et luxueuses disponibles à la vente.</p>
-            <a href="list.html" class="btn">Voir Nos Propriétés</a>
+            <a href="list.php" class="btn">Voir Nos Propriétés</a>
         </div>
     </header>
 

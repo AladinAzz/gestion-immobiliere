@@ -11,12 +11,12 @@
 <body>
     <nav class="navbar">
         <div class="logo">
-            <a href="index.html"><img src="pic.png" alt="aadl 2.0"></a>
+            <a href="visit.php"><img src="pic.png" alt="aadl 2.0"></a>
            </div>
         <ul class="nav-links">
-            <li><a href="index.html">Accueil</a></li>
-            <li><a href="list.html">Nos Propriétés</a></li>
-            <li><a href="test3.html">Connexion</a></li>
+            <li><a href="visit.php">Accueil</a></li>
+            <li><a href="list.php">Nos Propriétés</a></li>
+            <li><a href="../login/log.php">Connexion</a></li>
         </ul>
     </nav>
 
