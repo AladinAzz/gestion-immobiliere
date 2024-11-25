@@ -78,12 +78,12 @@ foreach ($users as &$user) {
     <header>
     <nav class="navbar">
         <div class="logo">
-            <a href="index.html"><img src="pic.png" alt="aadl 2.0"></a>
+            <a href="accueil.html"><img src="pic.png" alt="aadl 2.0"></a>
            </div>
         <ul class="nav-links">
-            <li><a href="index.html">Accueil</a></li>
+            <li><a href="accueil.html">Accueil</a></li>
             <li><a href="list.html">Nos Propriétés</a></li>
-            <li><a href="test3.html">Connexion</a></li>
+            <li><a href="log.html">Connexion</a></li>
         </ul>
     </nav>
 </header>
