@@ -6,7 +6,7 @@ if (!isset($_SESSION['login_attempts'])) {
     $_SESSION['login_attempts'] = 0;
     $_SESSION['lockout_time'] = null;
 }
-
+//hello world!
 // Check if the user is already connected
 if (isset($_SESSION["connected"]) && $_SESSION["connected"]) {
     switch ($_SESSION["role"]) {
