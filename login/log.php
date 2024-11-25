@@ -57,13 +57,16 @@ if (!empty($_POST["email"]) && !empty($_POST["password"])) {
     }
 
     // Query user data
+    try{
     $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE email=:mail");
     $stmt->bindParam(':mail', $email, PDO::PARAM_STR);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
+}catch(PDOException $e) {   
+    die("Connection failed: " . $e->getMessage());
+}
     
-    if ($user && password_verify($password, $user["mot_de_passe"])) {
+    if (isset($user) && password_verify($password, $user["mot_de_passe"])) {
         $_SESSION["connections"][$email]["login_attempts"] = 0;
         $_SESSION["connections"][$email]["lockoutTime"] = null;
         $_SESSION["connected"] = true;
@@ -78,7 +81,7 @@ if (!empty($_POST["email"]) && !empty($_POST["password"])) {
         } else {
             $remainingAttempts = 3 - $_SESSION["connections"][$email]["login_attempts"];
             echo "<script>alert('Invalid login. $remainingAttempts attempt(s) left.');</script>";
-            header("location: ../index.php ");
+            header("location: ../visit/visit.php ");
         }
     }
 }
