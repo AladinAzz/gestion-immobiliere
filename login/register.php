@@ -4,7 +4,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = htmlspecialchars($_POST['txt']); 
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-    $telephone =
+    $telephone =$POST['telephone'];
     $role="visit";
 
     $sql = "SELECT * FROM utilisateur WHERE email = :email";
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $pdo->prepare($sql);
 
     try {
-        $stmt->execute([':name' => $name, ':email' => $email, ':password' => $password] ,':$telephone' => $telephone);
+        $stmt->execute([':name' => $name, ':email' => $email, ':password' => $password ,':$telephone' => $telephone]);
         echo "Compte créé avec succès !";
     } catch (PDOException $e) {
         die("Erreur lors de l'inscription : " . $e->getMessage());
