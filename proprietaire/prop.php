@@ -5,8 +5,8 @@ if (isset($_SESSION["connected"]) && $_SESSION["connected"]==true){
    
     $host = 'localhost:3306';  // Replace with your database host
     $dbname = 'gestion_immobiliere';  // Replace with your database name
-    $username = 'root';  // Replace with your MySQL username
-    $password = 'Aladdinazz22';  // Replace with your MySQL password
+    $username = 'admin';  // Replace with your MySQL username
+    $password = 'admin';  // Replace with your MySQL password
     
     try {
         // Create a PDO instance (connect to the database)
@@ -78,12 +78,12 @@ foreach ($users as &$user) {
     <header>
     <nav class="navbar">
         <div class="logo">
-            <a href="index.html"><img src="pic.png" alt="aadl 2.0"></a>
+            <a href="accueil.html"><img src="pic.png" alt="aadl 2.0"></a>
            </div>
         <ul class="nav-links">
-            <li><a href="index.html">Accueil</a></li>
+            <li><a href="accueil.html">Accueil</a></li>
             <li><a href="list.html">Nos Propriétés</a></li>
-            <li><a href="test3.html">Connexion</a></li>
+            <li><a href="log.html">Connexion</a></li>
         </ul>
     </nav>
 </header>
