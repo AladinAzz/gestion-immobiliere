@@ -16,13 +16,13 @@ if (isset($_SESSION["connected"]) && $_SESSION["connected"]) {
             header("location:../proprietaire/prop.php");
             break;
         case "admin":
-            $_SESSION["username"] = "root";
-            $_SESSION["password"] = "Aladdinazz22";
+            $_SESSION["username"] = "admin";
+            $_SESSION["password"] = "admin";
             header("location:../admin/admin.php");
             break;
         case "agent":
             $_SESSION["username"] = "agent";
-            $_SESSION["password"] = "Agent47";
+            $_SESSION["password"] = "agent47";
             header("location:../agent/agent.php");
             break;
         case "locataire":
@@ -50,7 +50,7 @@ if (isset($_SESSION["connected"]) && $_SESSION["connected"]) {
         $host = 'localhost:3306';
         $dbname = 'gestion_immobiliere';
         $username = 'root';
-        $dbPassword = 'Aladdinazz22';
+        $dbPassword = 'ismailo1801997065';
 
         try {
             $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $dbPassword);
@@ -159,7 +159,7 @@ if (isset($_SESSION["connected"]) && $_SESSION["connected"]) {
         }
     </style>
 </head>
-<body>
+<body style="background-image: url('build.jpg'); background-repeat: no-repeat; background-size: cover; " >
     <div class="container" id="container">
         <!-- Sign-Up Form -->
         <div class="form-container sign-up-container">

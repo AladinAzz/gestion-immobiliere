@@ -5,6 +5,9 @@
 }
 
 body {
+	background-image: url('build2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
 	background: #f6f5f7;
 	display: flex;
 	justify-content: center;
@@ -45,8 +48,8 @@ a {
 
 button , submit {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid #ffb300;
+	background-color: #000000;
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -159,7 +162,7 @@ input {
 }
 
 .overlay {
-	background: #FF416C;
+	background: #ffa200;
 	background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
 	background: linear-gradient(to right, #FF4B2B, #FF416C);
 	background-repeat: no-repeat;
@@ -242,7 +245,7 @@ footer p {
 }
 
 footer i {
-    color: red;
+    color: rgb(254, 173, 0);
 }
 
 footer a {
