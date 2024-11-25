@@ -43,9 +43,11 @@ if (isset($_POST['butt'])) {
     /*
         $reponse = $requete->fetchAll(PDO::FETCH_ASSOC);
         var_dump($reponse);*/
+    
+
         echo "<script>alert('you have been registred');</script>";
 
-        header("location :log.php");
+        
 
 
 }
